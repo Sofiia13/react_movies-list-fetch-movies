@@ -20,10 +20,13 @@ export const FindMovie: React.FC<Props> = ({
   query,
   setQuery,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     try {
       const result = await getMovie(query);
@@ -47,8 +50,11 @@ export const FindMovie: React.FC<Props> = ({
     } catch {
       setErrorMessage(true);
       findMovie(null);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <>
       <form className="find-movie" onSubmit={handleSubmit}>
@@ -86,8 +92,8 @@ export const FindMovie: React.FC<Props> = ({
             <button
               data-cy="searchButton"
               type="submit"
-              className="button is-light"
-              disabled={!query}
+              disabled={!query || isLoading}
+              className={`button is-light ${isLoading ? 'is-loading' : ''}`}
             >
               Find a movie
             </button>

@@ -12,7 +12,7 @@ export const App = () => {
   const handleAddMovie = () => {
     if (newMovie) {
       setMovies(prev => [...prev, newMovie]);
-      setNewMovie(null); 
+      setNewMovie(null);
       setQuery('');
     }
   };
